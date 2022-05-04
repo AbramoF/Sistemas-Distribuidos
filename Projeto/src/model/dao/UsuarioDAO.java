@@ -11,23 +11,21 @@ import model.bean.Usuario;
 
 public class UsuarioDAO {
 
-    public void create(Usuario u) {
+    public boolean register(String username, String senha) {
         Connection con = DbConnection.getMySqlConnection();
         PreparedStatement stmt = null;
 
         try {
             stmt = con.prepareStatement("INSERT INTO user (username, password) VALUES (?,?)");
-            stmt.setString(1, u.getUsername());
-            stmt.setString(2, u.getPassword());
+            stmt.setString(1, username);
+            stmt.setString(2, senha);
 
             stmt.executeUpdate(); // executa
 
-            // FAZER
-            // RETORNAR ALGO DE SUCESSO
+            return true;
         } catch (SQLException ex) {
             System.out.println(ex);
-            // FAZER
-            // RETORNAR ALGO DE ERRO
+            return false;
         } finally {
             DbConnection.closeConnection(con, stmt);
         }
@@ -144,5 +142,9 @@ public class UsuarioDAO {
 
         return check;
 
+    }
+    
+    public void logout(String username) {
+        System.out.println(username + " deslogado!");
     }
 }
