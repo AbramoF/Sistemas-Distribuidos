@@ -40,7 +40,7 @@ public class TCPClient {
                                    new InputStreamReader(System.in));
 	String userInput;
 
-       login oi=new login(null);
+       //login oi=new login(null);
 
         System.out.println ("Type Message (\"Bye.\" to quit)");
         System.out.println("1- Login | 2- Logout | 3- Register");

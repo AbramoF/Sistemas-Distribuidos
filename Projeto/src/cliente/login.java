@@ -8,7 +8,6 @@ import java.sql.*;
 
 public class login extends JDialog{
 
-    private static User login;
     private JPasswordField senha;
     private JTextField usuario;
     private JPanel panel1;
@@ -30,12 +29,6 @@ public login(JFrame parent){
             String user = usuario.getText();
             String password = String.valueOf(senha.getPassword());
 
-            if(login!=null){
-                dispose();
-            }
-            else{
-                JOptionPane.showMessageDialog(login.this,"Email or password invalid","Try Again",JOptionPane.ERROR_MESSAGE);
-            }
         }
     });
 }

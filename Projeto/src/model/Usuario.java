@@ -1,17 +1,13 @@
-package model.bean;
+package model;
 
 public class Usuario {
     
-    private int iduser;
     private String username;
     private String password;
 
-    public int getIduser() {
-        return iduser;
-    }
-
-    public void setIduser(int iduser) {
-        this.iduser = iduser;
+    public Usuario(String username, String password) {
+       this.username = username;
+       this.password = password;
     }
 
     public String getUsername() {

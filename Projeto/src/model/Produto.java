@@ -1,14 +1,13 @@
-package model.bean;
+package model;
 
 
 public class Produto {
-    
     
     private int idproduct;
     private String name;
     private float value;
     private String description;
-    //private int user_iduser;
+    private int user_username;
 
     public int getIdproduct() {
         return idproduct;
@@ -42,13 +41,13 @@ public class Produto {
         this.description = description;
     }
 
-//    public int getUser_iduser() {
-//        return user_iduser;
-//    }
-//
-//    public void setUser_iduser(int user_iduser) {
-//        this.user_iduser = user_iduser;
-//    }
+    public int getUser_iduser() {;
+        return user_username;
+    }
+
+    public void setUser_iduser(int username) {
+        this.user_username = username;
+    }
     
     
     
