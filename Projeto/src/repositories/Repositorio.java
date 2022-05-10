@@ -8,6 +8,7 @@ public class Repositorio {
 
     public Repositorio() {
         this.usuarios = new ArrayList<Usuario>();
+        this.produtos = new ArrayList<Produto>();
     }
 
     private ArrayList<Usuario> usuarios;
