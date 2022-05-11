@@ -9,6 +9,7 @@ public class Repositorio {
     public Repositorio() {
         this.usuarios = new ArrayList<Usuario>();
         this.produtos = new ArrayList<Produto>();
+        this.usuariosOnline = new ArrayList<String>();
     }
 
     private ArrayList<Usuario> usuarios;
@@ -25,12 +26,15 @@ public class Repositorio {
     }
     
     public boolean login(String username, String senha) {
-        if (getUsuarios().contains(new Usuario(username,senha))) {
-            novoOnline(username);
-            return true;
-        } else {
-            return false;
+        ArrayList<Usuario> users = getUsuarios();
+        for (int i = 0; i < usuarios.size(); i++) {
+            Usuario user = users.get(i);
+            if (user.getUsername().equals(username) && user.getPassword().equals(senha)) {
+                novoOnline(username);
+                return true;
+            }
         }
+        return false;
     }
     
     public boolean logOut(String username) {
@@ -53,7 +57,7 @@ public class Repositorio {
     public boolean existeUsuario(String username) {
         ArrayList<Usuario> users = getUsuarios();
         for (int i = 0; i < usuarios.size(); i++) {
-            if (users.get(i).getUsername() == username) {
+            if (users.get(i).getUsername().equals(username)) {
                 return true;
             }
         }

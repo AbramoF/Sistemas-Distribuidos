@@ -71,7 +71,6 @@ public String TreatRequest(String jsonRequest)
                     return gson.toJson(new DefaultResponse(102), DefaultResponse.class);
                 case 200:
                     LogoutRequestDTO logoutRequest = gson.fromJson(jsonRequest, LogoutRequestDTO.class);
-                    repositorio.logOut(logoutRequest.getUsername());
                     return gson.toJson(new DefaultResponse(201));
                 case 300:
                     RegisterRequestDTO registerRequest = gson.fromJson(jsonRequest, RegisterRequestDTO.class);
@@ -83,6 +82,7 @@ public String TreatRequest(String jsonRequest)
                 default: 
                     return gson.toJson(new DefaultResponse(999), DefaultResponse.class);
             }
+            
         }
         catch(JsonSyntaxException ex)
         {
