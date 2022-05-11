@@ -9,16 +9,17 @@ import java.io.*;
 import java.net.Socket;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import repositories.Repositorio;
 
 public class ServerThread extends Thread
 {
     private Socket socket;
-    //private UsuarioDAO usuario;
+    Repositorio repositorio;
     
-    public ServerThread(Socket socket)
+    public ServerThread(Socket socket, Repositorio repositorio)
     {
         this.socket = socket;
-        //this.usuario = new UsuarioDAO();
+        this.repositorio = repositorio;
     }
     
     public void run()
@@ -59,25 +60,22 @@ public String TreatRequest(String jsonRequest)
             DefaultRequest request = gson.fromJson(jsonRequest, DefaultRequest.class);
             
             boolean result;
-            // ---------------------
-            result = true;// tirar 
-            // ---------------------
             
             switch (request.getOp())
             {
                 case 100:
                     LoginRequestDTO loginRequest = gson.fromJson(jsonRequest, LoginRequestDTO.class);
-                    //result = usuario.checkLogin(loginRequest.getUsername(), loginRequest.getPassword());
+                    result = repositorio.login(loginRequest.getUsername(), loginRequest.getPassword());
                     if (result)
                         return gson.toJson(new DefaultResponse(101), DefaultResponse.class);
                     return gson.toJson(new DefaultResponse(102), DefaultResponse.class);
                 case 200:
                     LogoutRequestDTO logoutRequest = gson.fromJson(jsonRequest, LogoutRequestDTO.class);
-                    //usuario.logout(logoutRequest.getUsername());
+                    repositorio.logOut(logoutRequest.getUsername());
                     return gson.toJson(new DefaultResponse(201));
                 case 300:
                     RegisterRequestDTO registerRequest = gson.fromJson(jsonRequest, RegisterRequestDTO.class);
-                    //result = usuario.register(registerRequest.getUsername(), registerRequest.getPassword());
+                    result = repositorio.registrarUsuario(registerRequest.getUsername(), registerRequest.getPassword());
                     if (result)
                         return gson.toJson(new DefaultResponse(301));
                     return gson.toJson(new DefaultResponse(302));

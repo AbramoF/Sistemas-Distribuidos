@@ -75,4 +75,10 @@ public class Repositorio {
     public void setProdutos(ArrayList<Produto> produtos) {
         this.produtos = produtos;
     }
+    
+    public void printUsers() {
+        for (int i = 0; i < getUsuarios().size(); i++) {
+            System.out.println(getUsuarios().get(i).getUsername());
+        }
+    }
 }
