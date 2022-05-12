@@ -15,7 +15,7 @@ import javax.swing.*;
 
 public class TCPClient {
 
-    public static void createInterfaceLogin(JFrame f, BufferedReader in, PrintWriter out) {
+    public static void createInterfaceLogin(JFrame f, BufferedReader in, PrintWriter out, Socket echoSocket) {
         JLabel login = new JLabel("Bem Vindo");
         JLabel username = new JLabel("Usuario:");
         JLabel password = new JLabel("Senha:");
@@ -31,6 +31,19 @@ public class TCPClient {
         login.setBounds(110, 1, 75, 75);
         username.setBounds(60, 55, 75, 25);
         password.setBounds(68, 95, 75, 25);
+
+        f.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    out.close();
+                    in.close();
+                    echoSocket.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
 
         f.add(botaoLogin);
         f.add(botaoCadastro);
@@ -59,6 +72,13 @@ public class TCPClient {
                     out.println(gson.toJson(loginRequest));
                     String resposta = in.readLine();
                     System.out.println("Servidor respondeu : " + resposta);
+                    DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
+                    if(respostaJson.getStatus() == 101)
+                    {
+                      JOptionPane.showMessageDialog(null, "Sucesso", "Login", 1);
+                    } else if(respostaJson.getStatus() == 102) {
+                      JOptionPane.showMessageDialog(null, "Fail", "Login", 1);
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -89,17 +109,17 @@ public class TCPClient {
 
     public static void main(String[] args) throws IOException {
 
-        String serverHostname = new String("127.0.0.1");
+        String serverHostname = new String("127.0.0.1"); //127.0.0.1 //jeremy 10.20.8.16
         if (args.length > 0) {
             serverHostname = args[0];
         }
-        System.out.println("Attemping to connect to host " + serverHostname + " on port 10009.");
+        System.out.println("Attemping to connect to host " + serverHostname + " on port 20000.");
         Socket echoSocket = null;
         PrintWriter out = null;
         BufferedReader in = null;
 
         try {
-            echoSocket = new Socket(serverHostname, 10009);
+            echoSocket = new Socket(serverHostname, 20000);
             out = new PrintWriter(echoSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(
                     echoSocket.getInputStream()));
@@ -112,28 +132,10 @@ public class TCPClient {
             System.exit(1);
         }
 
-        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-        String userInput;
-
         // CRIACAO DA INTERFACE
         JFrame f = new JFrame();
-        createInterfaceLogin(f, in, out);
-
+        createInterfaceLogin(f, in, out, echoSocket);
         // --------------------
-        
-        while ((userInput = stdIn.readLine()) != null) {
-            Gson gson = new Gson();
 
-            if (userInput.equals("Bye.")) {
-                break;
-            }
-
-            System.out.println("echo: " + in.readLine());
-        }
-
-        out.close();
-        in.close();
-        stdIn.close();
-        echoSocket.close();
     }
 }

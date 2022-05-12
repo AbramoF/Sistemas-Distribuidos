@@ -9,7 +9,7 @@ public class TCPServer {
     
     public static void main(String[] args)
     {
-       int port = 10009;
+       int port = 20000;
        Repositorio repositorio = new Repositorio();
        
        try (ServerSocket serverSocket = new ServerSocket(port))

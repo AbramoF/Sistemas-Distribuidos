@@ -1,20 +1,20 @@
 package DTOs.responses;
 
 public class DefaultResponse {
-    private int statusCode;
+    private int status;
     
-    public int getStatusCode()
+    public int getStatus()
     {
-        return statusCode;
+        return status;
     }
     
-    public void setStatusCode(int value)
+    public void setStatus(int value)
     {
-        statusCode = value;
+        status = value;
     }
     
-    public DefaultResponse(int statusCode)
+    public DefaultResponse(int status)
     {
-        this.statusCode = statusCode;
+        this.status = status;
     }
 }
