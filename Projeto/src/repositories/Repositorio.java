@@ -21,6 +21,7 @@ public class Repositorio {
             return false;
         } else {
             usuarios.add(new Usuario(username, senha));
+            System.out.println("Registrou " + username);
             return true;
         }
     }
@@ -31,6 +32,7 @@ public class Repositorio {
             Usuario user = users.get(i);
             if (user.getUsername().equals(username) && user.getPassword().equals(senha)) {
                 novoOnline(username);
+                System.out.println("Logou " + username);
                 return true;
             }
         }
@@ -40,6 +42,7 @@ public class Repositorio {
     public boolean logOut(String username) {
         if(usuariosOnline.contains(username)) {
             saiuOnline(username);
+            System.out.println("Deslogou " + username);
             return true;
         } else {
             return false;

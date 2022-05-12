@@ -15,6 +15,7 @@ public class ServerThread extends Thread
 {
     private Socket socket;
     Repositorio repositorio;
+    String currentUser;
     
     public ServerThread(Socket socket, Repositorio repositorio)
     {
@@ -45,7 +46,9 @@ public class ServerThread extends Thread
                 }
             } while(jsonRequest != null);
             
-            System.out.println("ENCERROU");
+            if(currentUser != null)
+                repositorio.logOut(currentUser); // DESLOGAR USER QUANDO FECHA O CLIENTE
+            System.out.println("Encerrou Thread");
             socket.close();
         } 
         catch(IOException ex) 
@@ -70,7 +73,10 @@ public String TreatRequest(String jsonRequest)
                     LoginRequestDTO loginRequest = gson.fromJson(jsonRequest, LoginRequestDTO.class);
                     result = repositorio.login(loginRequest.getUsername(), loginRequest.getPassword());
                     if (result)
+                    {
+                        currentUser = loginRequest.getUsername();
                         return gson.toJson(new DefaultResponse(101), DefaultResponse.class);
+                    }
                     return gson.toJson(new DefaultResponse(102), DefaultResponse.class);
                 case 200:
                     LogoutRequestDTO logoutRequest = gson.fromJson(jsonRequest, LogoutRequestDTO.class);
