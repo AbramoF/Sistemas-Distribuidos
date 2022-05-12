@@ -38,9 +38,12 @@ public class ServerThread extends Thread
             {
                 jsonRequest = reader.readLine();
                 System.out.println("Cliente Enviou: " +jsonRequest);
-                String response = TreatRequest(jsonRequest);
-                writer.println("Server enviou : " + response);
-            } while(!jsonRequest.equals("Bye"));
+                if(jsonRequest != null)
+                {
+                    String response = TreatRequest(jsonRequest);
+                    writer.println("Server enviou : " + response);
+                }
+            } while(jsonRequest != null);
             
             System.out.println("ENCERROU");
             socket.close();
