@@ -5,6 +5,8 @@ import DTOs.requests.DefaultRequest;
 import DTOs.requests.LoginRequestDTO;
 import DTOs.requests.LogoutRequestDTO;
 import DTOs.requests.RegisterRequestDTO;
+import DTOs.responses.LoginResponse;
+import DTOs.responses.RegisterResponse;
 import java.io.*;
 import java.net.Socket;
 import com.google.gson.Gson;
@@ -39,6 +41,7 @@ public class ServerThread extends Thread {
                 if (jsonRequest != null) {
                     String response = TreatRequest(jsonRequest);
                     writer.println(response);
+                    System.out.println("Servidor respondeu: " + response);
                 }
             } while (jsonRequest != null);
 
@@ -59,27 +62,36 @@ public class ServerThread extends Thread {
             DefaultRequest request = gson.fromJson(jsonRequest, DefaultRequest.class);
 
             boolean result;
+            int resultNumber;
 
             switch (request.getOp()) {
+                // LOGIN
                 case 100:
                     LoginRequestDTO loginRequest = gson.fromJson(jsonRequest, LoginRequestDTO.class);
                     result = viewServidor.repositorio.login(loginRequest.getUsername(), loginRequest.getPassword());
                     if (result) {
                         currentUser = loginRequest.getUsername();
-                        return gson.toJson(new DefaultResponse(101), DefaultResponse.class);
+                        return gson.toJson(new LoginResponse(101, 0));
                     }
-                    return gson.toJson(new DefaultResponse(102), DefaultResponse.class);
+                    return gson.toJson(new DefaultResponse(102));
+                // LOGOUT
                 case 200:
                     LogoutRequestDTO logoutRequest = gson.fromJson(jsonRequest, LogoutRequestDTO.class);
-                    return gson.toJson(new DefaultResponse(201));
+                    if( viewServidor.repositorio.logOut(currentUser)) {
+                        return gson.toJson(new DefaultResponse(201));
+                    }
+                    // sem resposta se n der certo o logout
+                // REGISTRO
                 case 300:
                     RegisterRequestDTO registerRequest = gson.fromJson(jsonRequest, RegisterRequestDTO.class);
-                    result = viewServidor.repositorio.registrarUsuario(registerRequest.getUsername(), registerRequest.getPassword());
-                    if (result) {
+                    resultNumber = viewServidor.repositorio.registrarUsuario(registerRequest.getUsername(), registerRequest.getPassword());
+                    if (resultNumber == 0) { // Algum campo vazio
+                      return gson.toJson(new RegisterResponse(303,"Algum campo vazio"));
+                    } else if (resultNumber == 1) { // Usuario ja existe 
+                      return gson.toJson(new RegisterResponse(302, "Usuario ja existe"));
+                    } else if (resultNumber == 2) { // Sucesso registro
                         return gson.toJson(new DefaultResponse(301));
                     }
-                    return gson.toJson(new DefaultResponse(302));
-
                 default:
                     return gson.toJson(new DefaultResponse(999), DefaultResponse.class);
             }

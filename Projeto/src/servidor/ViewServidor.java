@@ -122,14 +122,16 @@ public class ViewServidor extends javax.swing.JFrame {
             if (iniciarServidor()) {
                 this.portField.setEditable(false);
                 this.botaoCarregar.setEnabled(false);
-                while (true) {
-                    try {
+                try {
+                    while (true) {
+
                         socket = serverSocket.accept();
                         System.out.println("Novo cliente conectado");
                         new ServerThread(this).start();
-                    } catch (IOException ex) {
-                        Logger.getLogger(ViewServidor.class.getName()).log(Level.SEVERE, null, ex);
+
                     }
+                } catch (IOException ex) {
+                    Logger.getLogger(ViewServidor.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }

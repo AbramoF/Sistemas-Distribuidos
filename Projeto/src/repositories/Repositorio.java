@@ -25,13 +25,16 @@ public class Repositorio {
     private ArrayList<Produto> produtos;
     public ArrayList<String> usuariosOnline;
 
-    public boolean registrarUsuario(String username, String senha) {
-        if (existeUsuario(username)) {
-            return false;
+    public int registrarUsuario(String username, String senha) {
+        if(username.equals("") || senha.equals(""))
+        {
+            return 0;
+        } else if (existeUsuario(username)) {
+            return 1;
         } else {
             usuarios.add(new Usuario(username, senha));
             System.out.println("Registrou " + username);
-            return true;
+            return 2;
         }
     }
 
@@ -59,11 +62,13 @@ public class Repositorio {
     }
 
     public void novoOnline(String username) {
-        usuariosOnline.add(username);
+        if(!usuariosOnline.contains(username)) // ver se ta funcionando
+            usuariosOnline.add(username);
     }
 
     public void saiuOnline(String username) {
-        usuariosOnline.remove(username);
+        if(usuariosOnline.contains(username)) // ver se ta funcionando
+            usuariosOnline.remove(username);
     }
 
     public boolean existeUsuario(String username) {

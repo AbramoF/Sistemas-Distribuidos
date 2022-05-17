@@ -82,7 +82,7 @@ public class ViewClienteLogin extends javax.swing.JFrame {
 
         portField.setText("20000");
 
-        carregarButton.setText("Carregar");
+        carregarButton.setText("Conectar");
         carregarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 carregarButtonActionPerformed(evt);
@@ -203,9 +203,9 @@ public class ViewClienteLogin extends javax.swing.JFrame {
             System.out.println("Servidor respondeu : " + resposta);
             DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
             if (respostaJson.getStatus() == 101) {
-                JOptionPane.showMessageDialog(null, "Sucesso", "Login", 1);
+                JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Login", 1);
             } else if (respostaJson.getStatus() == 102) {
-                JOptionPane.showMessageDialog(null, "Fail", "Login", 1);
+                JOptionPane.showMessageDialog(null, "Falha, " + resposta, "Login", 1);
             }
         } catch (IOException ex) {
             Logger.getLogger(ViewClienteLogin.class.getName()).log(Level.SEVERE, null, ex);
@@ -232,6 +232,8 @@ public class ViewClienteLogin extends javax.swing.JFrame {
                 this.carregarButton.setEnabled(false);
                 this.botaoRegistro.setEnabled(true);
                 this.botaoLogin.setEnabled(true);
+                System.out.println("Cliente conectado com servidor no IP " + serverHostname + ", na porta " + port);
+                JOptionPane.showMessageDialog(null, "Conectado com o servidor", "Conecção", 1);
             } catch (UnknownHostException e) {
                 System.err.println("Don't know about host: " + serverHostname);
                 JOptionPane.showMessageDialog(null, "Don't know about host: " + serverHostname, "Erro ", JOptionPane.ERROR_MESSAGE);
@@ -261,11 +263,13 @@ public class ViewClienteLogin extends javax.swing.JFrame {
             String resposta = in.readLine();
             System.out.println("Servidor respondeu : " + resposta);
             DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
-            if (respostaJson.getStatus() == 301) {
-                JOptionPane.showMessageDialog(null, "Sucesso", "Login", 1);
-            } else if (respostaJson.getStatus() == 302) {
-                JOptionPane.showMessageDialog(null, "Fail", "Login", 1);
-            }
+            if (respostaJson.getStatus() == 301) { // Sucesso
+                JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Registro", 1);
+            } else if (respostaJson.getStatus() == 302) { // Usuario ja existe
+                JOptionPane.showMessageDialog(null, "Falha, " + resposta, "Registro", 1);
+            } else if (respostaJson.getStatus() == 303) { // Campo vazio
+                JOptionPane.showMessageDialog(null, "Falha, " + resposta, "Registro", 1);
+            } 
         } catch (IOException ex) {
             Logger.getLogger(ViewClienteLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
