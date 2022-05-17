@@ -72,6 +72,7 @@ public class TCPClient {
                     out.println(gson.toJson(loginRequest));
                     String resposta = in.readLine();
                     System.out.println("Servidor respondeu : " + resposta);
+                    
                     DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
                     if(respostaJson.getStatus() == 101)
                     {
@@ -79,6 +80,7 @@ public class TCPClient {
                     } else if(respostaJson.getStatus() == 102) {
                       JOptionPane.showMessageDialog(null, "Fail", "Login", 1);
                     }
+                    
                 } catch (IOException ex) {
                     Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
                 }

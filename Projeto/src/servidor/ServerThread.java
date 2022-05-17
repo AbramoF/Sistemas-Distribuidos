@@ -11,8 +11,91 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import repositories.Repositorio;
 
+public class ServerThread extends Thread {
+
+    ViewServidor viewServidor;
+    Socket socket;
+    String currentUser;
+
+    public ServerThread(ViewServidor viewServidor) {
+        super();
+        this.viewServidor = viewServidor;
+
+    }
+
+    public void run() {
+        try {
+            InputStream input = viewServidor.socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+            OutputStream output = viewServidor.socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(output, true);
+
+            String jsonRequest;
+
+            do {
+                jsonRequest = reader.readLine();
+                System.out.println("Cliente Enviou: " + jsonRequest);
+                if (jsonRequest != null) {
+                    String response = TreatRequest(jsonRequest);
+                    writer.println(response);
+                }
+            } while (jsonRequest != null);
+
+            if (currentUser != null) {
+                viewServidor.repositorio.logOut(currentUser); // DESLOGAR USER QUANDO FECHA O CLIENTE
+            }
+            System.out.println("Encerrou Thread");
+            viewServidor.socket.close();
+        } catch (IOException ex) {
+            System.out.println("Server exception: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public String TreatRequest(String jsonRequest) {
+        Gson gson = new Gson();
+        try {
+            DefaultRequest request = gson.fromJson(jsonRequest, DefaultRequest.class);
+
+            boolean result;
+
+            switch (request.getOp()) {
+                case 100:
+                    LoginRequestDTO loginRequest = gson.fromJson(jsonRequest, LoginRequestDTO.class);
+                    result = viewServidor.repositorio.login(loginRequest.getUsername(), loginRequest.getPassword());
+                    if (result) {
+                        currentUser = loginRequest.getUsername();
+                        return gson.toJson(new DefaultResponse(101), DefaultResponse.class);
+                    }
+                    return gson.toJson(new DefaultResponse(102), DefaultResponse.class);
+                case 200:
+                    LogoutRequestDTO logoutRequest = gson.fromJson(jsonRequest, LogoutRequestDTO.class);
+                    return gson.toJson(new DefaultResponse(201));
+                case 300:
+                    RegisterRequestDTO registerRequest = gson.fromJson(jsonRequest, RegisterRequestDTO.class);
+                    result = viewServidor.repositorio.registrarUsuario(registerRequest.getUsername(), registerRequest.getPassword());
+                    if (result) {
+                        return gson.toJson(new DefaultResponse(301));
+                    }
+                    return gson.toJson(new DefaultResponse(302));
+
+                default:
+                    return gson.toJson(new DefaultResponse(999), DefaultResponse.class);
+            }
+
+        } catch (JsonSyntaxException ex) {
+            System.out.println("Erro ao converter para Json");
+            return "";
+        }
+    }
+
+}
+
+/*
 public class ServerThread extends Thread
 {
+    
     private Socket socket;
     Repositorio repositorio;
     String currentUser;
@@ -42,7 +125,7 @@ public class ServerThread extends Thread
                 if(jsonRequest != null)
                 {
                     String response = TreatRequest(jsonRequest);
-                    writer.println("Server enviou : " + response);
+                    writer.println(response);
                 }
             } while(jsonRequest != null);
             
@@ -101,3 +184,4 @@ public String TreatRequest(String jsonRequest)
     }
     
 }
+ */

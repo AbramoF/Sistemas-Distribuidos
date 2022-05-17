@@ -10,7 +10,16 @@ public class Repositorio {
         this.usuarios = new ArrayList<Usuario>();
         this.produtos = new ArrayList<Produto>();
         this.usuariosOnline = new ArrayList<String>();
+
     }
+    
+    // TIRAR
+    public int port = 0;
+    public String data[][] = {{"101", "Abramo", "670000"},
+    {"102", "Matheus", "780000"},
+    {"101", "Portela", "700000"}};
+    public String column[] = {"ID", "NAME", "SALARY"};
+    // ------------------------------------------------------
 
     private ArrayList<Usuario> usuarios;
     private ArrayList<Produto> produtos;
@@ -25,7 +34,7 @@ public class Repositorio {
             return true;
         }
     }
-    
+
     public boolean login(String username, String senha) {
         ArrayList<Usuario> users = getUsuarios();
         for (int i = 0; i < usuarios.size(); i++) {
@@ -38,9 +47,9 @@ public class Repositorio {
         }
         return false;
     }
-    
+
     public boolean logOut(String username) {
-        if(usuariosOnline.contains(username)) {
+        if (usuariosOnline.contains(username)) {
             saiuOnline(username);
             System.out.println("Deslogou " + username);
             return true;
@@ -48,15 +57,15 @@ public class Repositorio {
             return false;
         }
     }
-    
+
     public void novoOnline(String username) {
         usuariosOnline.add(username);
     }
-    
+
     public void saiuOnline(String username) {
         usuariosOnline.remove(username);
     }
-    
+
     public boolean existeUsuario(String username) {
         ArrayList<Usuario> users = getUsuarios();
         for (int i = 0; i < usuarios.size(); i++) {
@@ -82,7 +91,7 @@ public class Repositorio {
     public void setProdutos(ArrayList<Produto> produtos) {
         this.produtos = produtos;
     }
-    
+
     public void printUsers() {
         for (int i = 0; i < getUsuarios().size(); i++) {
             System.out.println(getUsuarios().get(i).getUsername());
