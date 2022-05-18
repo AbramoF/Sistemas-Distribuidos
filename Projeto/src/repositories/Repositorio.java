@@ -12,7 +12,7 @@ public class Repositorio {
         this.usuariosOnline = new ArrayList<String>();
 
     }
-    
+
     // TIRAR
     public int port = 0;
     public String data[][] = {{"101", "Abramo", "670000"},
@@ -24,10 +24,11 @@ public class Repositorio {
     private ArrayList<Usuario> usuarios;
     private ArrayList<Produto> produtos;
     public ArrayList<String> usuariosOnline;
+    
+    // FUNCOES DE USUARIO -----------------------------------------------------------------------
 
     public int registrarUsuario(String username, String senha) {
-        if(username.equals("") || senha.equals(""))
-        {
+        if (username.equals("") || senha.equals("")) {
             return 0;
         } else if (existeUsuario(username)) {
             return 1;
@@ -62,13 +63,17 @@ public class Repositorio {
     }
 
     public void novoOnline(String username) {
-        if(!usuariosOnline.contains(username)) // ver se ta funcionando
+        if (!usuariosOnline.contains(username)) // ver se ta funcionando
+        {
             usuariosOnline.add(username);
+        }
     }
 
     public void saiuOnline(String username) {
-        if(usuariosOnline.contains(username)) // ver se ta funcionando
+        if (usuariosOnline.contains(username)) // ver se ta funcionando
+        {
             usuariosOnline.remove(username);
+        }
     }
 
     public boolean existeUsuario(String username) {
@@ -81,6 +86,12 @@ public class Repositorio {
         return false;
     }
 
+    public void printUsers() {
+        for (int i = 0; i < getUsuarios().size(); i++) {
+            System.out.println(getUsuarios().get(i).getUsername());
+        }
+    }
+
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
@@ -89,6 +100,8 @@ public class Repositorio {
         this.usuarios = usuarios;
     }
 
+    // FUNCOES DE PRODUTO ----------------------------------------------------------------------
+    
     public ArrayList<Produto> getProdutos() {
         return produtos;
     }
@@ -97,9 +110,22 @@ public class Repositorio {
         this.produtos = produtos;
     }
 
-    public void printUsers() {
-        for (int i = 0; i < getUsuarios().size(); i++) {
-            System.out.println(getUsuarios().get(i).getUsername());
+    public boolean inserirProduto(String nome, float valor, String descricao, String username) {
+        Produto novoProduto = new Produto(proxIdProduto(), nome, valor, descricao, username);
+        produtos.add(novoProduto);
+        return true;
+    }
+
+    public int proxIdProduto() {
+        if (produtos.size() == 0) {
+            return 1;
+        } else {
+            int aux = produtos.get(0).getIdproduct();
+            for (int i = 0; i < produtos.size(); i++) {
+                if(produtos.get(i).getIdproduct() > aux)
+                    aux = produtos.get(i).getIdproduct();
+            }
+            return aux;
         }
     }
 }

@@ -3,7 +3,7 @@ package DTOs.responses;
 public class LoginResponse {
 
     private int status;
-    private int whislist;
+    private int wishlist;
 
     public int getStatus() {
         return status;
@@ -13,9 +13,9 @@ public class LoginResponse {
         status = value;
     }
 
-    public LoginResponse(int status, int whislist) {
+    public LoginResponse(int status, int wishlist) {
 
         this.status = status;
-        this.whislist = whislist;
+        this.wishlist = wishlist;
     }
 }
