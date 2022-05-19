@@ -26,6 +26,8 @@ public class ViewClienteLogin extends javax.swing.JFrame {
         botaoRegistro.setEnabled(false);
     }
 
+    String cUsername;
+    private ViewHome home;
     Socket echoSocket = null;
     PrintWriter out = null;
     BufferedReader in = null;
@@ -191,6 +193,7 @@ public class ViewClienteLogin extends javax.swing.JFrame {
     private void botaoLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLoginActionPerformed
         try {
             String username = usernameField.getText();
+            cUsername = usernameField.getText();
             String password = senhaField.getText();
             Gson gson = new Gson();
             LoginRequestDTO loginRequest = new LoginRequestDTO();
@@ -203,6 +206,9 @@ public class ViewClienteLogin extends javax.swing.JFrame {
             System.out.println("Servidor respondeu : " + resposta);
             DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
             if (respostaJson.getStatus() == 101) {
+                this.setVisible(false); // Desaparece tela login
+                home = new ViewHome(cUsername);
+                home.setVisible(true);
                 JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Login", 1);
             } else if (respostaJson.getStatus() == 102) {
                 JOptionPane.showMessageDialog(null, "Falha, " + resposta, "Login", 1);

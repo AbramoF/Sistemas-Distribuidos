@@ -11,6 +11,7 @@ import java.io.*;
 import java.net.Socket;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import model.Usuario;
 import repositories.Repositorio;
 
 public class ServerThread extends Thread {
@@ -18,6 +19,7 @@ public class ServerThread extends Thread {
     ViewServidor viewServidor;
     Socket socket;
     String currentUser;
+    Usuario usuariotabela;
 
     public ServerThread(ViewServidor viewServidor) {
         super();
@@ -49,12 +51,34 @@ public class ServerThread extends Thread {
                 viewServidor.repositorio.logOut(currentUser); // DESLOGAR USER QUANDO FECHA O CLIENTE
             }
             System.out.println("Encerrou Thread");
+
             viewServidor.socket.close();
-        } catch (IOException ex) {
-            System.out.println("Server exception: " + ex.getMessage());
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            System.out.println("Encerrou Thread inesperadamente");
+            if (currentUser != null) {
+                viewServidor.repositorio.logOut(currentUser); // DESLOGAR USER QUANDO FECHA O CLIENTE
+            }
+            //System.out.println("Server exception: " + ex.getMessage());
+            //ex.printStackTrace();
         }
     }
+    
+    public void atualizarTabela() {
+      String user;
+
+      javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) viewServidor.getTabela().getModel();
+      dtm.fireTableDataChanged(); // limpando
+      dtm.setRowCount(0); // começa pela linha 0
+
+      for (int cont = 0; cont < viewServidor.repositorio.usuariosOnline.size(); cont++) {
+         user = viewServidor.repositorio.usuariosOnline.get(cont);
+         String[] data
+                 = {
+                    "" + user, "asa", "asas"
+                 };
+         dtm.addRow(data);
+      }
+   }
 
     public String TreatRequest(String jsonRequest) {
         Gson gson = new Gson();
@@ -71,24 +95,25 @@ public class ServerThread extends Thread {
                     result = viewServidor.repositorio.login(loginRequest.getUsername(), loginRequest.getPassword());
                     if (result) {
                         currentUser = loginRequest.getUsername();
+                        atualizarTabela();
                         return gson.toJson(new LoginResponse(101, 0));
                     }
                     return gson.toJson(new DefaultResponse(102));
                 // LOGOUT
                 case 200:
                     LogoutRequestDTO logoutRequest = gson.fromJson(jsonRequest, LogoutRequestDTO.class);
-                    if( viewServidor.repositorio.logOut(currentUser)) {
+                    if (viewServidor.repositorio.logOut(currentUser)) {
                         return gson.toJson(new DefaultResponse(201));
                     }
-                    // sem resposta se n der certo o logout
+                // sem resposta se n der certo o logout
                 // REGISTRO
                 case 300:
                     RegisterRequestDTO registerRequest = gson.fromJson(jsonRequest, RegisterRequestDTO.class);
                     resultNumber = viewServidor.repositorio.registrarUsuario(registerRequest.getUsername(), registerRequest.getPassword());
                     if (resultNumber == 0) { // Algum campo vazio
-                      return gson.toJson(new RegisterResponse(303,"Algum campo vazio"));
+                        return gson.toJson(new RegisterResponse(303, "Algum campo vazio"));
                     } else if (resultNumber == 1) { // Usuario ja existe 
-                      return gson.toJson(new RegisterResponse(302, "Usuario ja existe"));
+                        return gson.toJson(new RegisterResponse(302, "Usuario ja existe"));
                     } else if (resultNumber == 2) { // Sucesso registro
                         return gson.toJson(new DefaultResponse(301));
                     }

@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import repositories.Repositorio;
 
 public class ViewServidor extends javax.swing.JFrame {
@@ -122,17 +123,7 @@ public class ViewServidor extends javax.swing.JFrame {
             if (iniciarServidor()) {
                 this.portField.setEditable(false);
                 this.botaoCarregar.setEnabled(false);
-                try {
-                    while (true) {
-
-                        socket = serverSocket.accept();
-                        System.out.println("Novo cliente conectado");
-                        new ServerThread(this).start();
-
-                    }
-                } catch (IOException ex) {
-                    Logger.getLogger(ViewServidor.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new ThreadWhile(this).start();
 
             }
         } else {
@@ -175,6 +166,11 @@ public class ViewServidor extends javax.swing.JFrame {
         });
     }
 
+    public JTable getTabela() {
+        return tabela;
+    }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCarregar;
     private javax.swing.JLabel jLabel1;
