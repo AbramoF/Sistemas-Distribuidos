@@ -103,6 +103,7 @@ public class ServerThread extends Thread {
                 case 200:
                     LogoutRequestDTO logoutRequest = gson.fromJson(jsonRequest, LogoutRequestDTO.class);
                     if (viewServidor.repositorio.logOut(currentUser)) {
+                        atualizarTabela();
                         return gson.toJson(new DefaultResponse(201));
                     }
                 // sem resposta se n der certo o logout

@@ -207,7 +207,7 @@ public class ViewClienteLogin extends javax.swing.JFrame {
             DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
             if (respostaJson.getStatus() == 101) {
                 this.setVisible(false); // Desaparece tela login
-                home = new ViewHome(cUsername);
+                home = new ViewHome(cUsername, this, out, in);
                 home.setVisible(true);
                 JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Login", 1);
             } else if (respostaJson.getStatus() == 102) {

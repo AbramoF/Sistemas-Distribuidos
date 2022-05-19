@@ -1,16 +1,30 @@
 package cliente;
 
-import servidor.ViewServidor;
+import DTOs.requests.LogoutRequestDTO;
+import DTOs.responses.DefaultResponse;
+import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 
 public class ViewHome extends javax.swing.JFrame {
 
-    public ViewHome(String cUsername) {
+    public ViewHome(String cUsername, ViewClienteLogin viewClienteLogin, PrintWriter out, BufferedReader in) {
         initComponents();
-        cUsername = cUsername;
+        this.cUsername = cUsername;
+        this.viewClienteLogin = viewClienteLogin;
+        this.in = in;
+        this.out = out;
     }
-    
-    ViewServidor viewServidor;
+
+    ViewClienteLogin viewClienteLogin;
     String cUsername;
+    PrintWriter out;
+    BufferedReader in;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -48,7 +62,24 @@ public class ViewHome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotaoSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoSairActionPerformed
-        
+        try {
+            Gson gson = new Gson();
+            LogoutRequestDTO logoutRequest = new LogoutRequestDTO();
+            logoutRequest.setOp(200);
+            logoutRequest.setUsername(cUsername);
+            System.out.printf("\n\nMensagem Enviada para o Server : " + gson.toJson(logoutRequest) + "\n\n");
+            out.println(gson.toJson(logoutRequest));
+            String resposta = in.readLine();
+            System.out.println("Servidor respondeu : " + resposta);
+            DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
+            if (respostaJson.getStatus() == 201) {
+                this.setVisible(false); // Desaparece tela login
+                viewClienteLogin.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Logout", 1);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ViewHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BotaoSairActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
