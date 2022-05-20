@@ -125,7 +125,7 @@ public class Repositorio {
                 if(produtos.get(i).getIdproduct() > aux)
                     aux = produtos.get(i).getIdproduct();
             }
-            return aux;
+            return aux + 1;
         }
     }
 }

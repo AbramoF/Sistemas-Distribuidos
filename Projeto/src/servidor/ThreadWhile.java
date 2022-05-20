@@ -21,6 +21,7 @@ public class ThreadWhile extends Thread {
             while (true) {
                 viewServidor.socket = viewServidor.serverSocket.accept();
                 System.out.println("Novo cliente conectado");
+                //System.out.println(viewServidor.socket.getRemoteSocketAddress().toString());
                 new ServerThread(viewServidor).start();
             }
         } catch (IOException ex) {

@@ -27,6 +27,7 @@ public class ViewClienteLogin extends javax.swing.JFrame {
     }
 
     String cUsername;
+     
     private ViewHome home;
     Socket echoSocket = null;
     PrintWriter out = null;

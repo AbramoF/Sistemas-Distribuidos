@@ -74,7 +74,7 @@ public class ServerThread extends Thread {
          user = viewServidor.repositorio.usuariosOnline.get(cont);
          String[] data
                  = {
-                    "" + user, "asa", "asas"
+                    "" + user
                  };
          dtm.addRow(data);
       }

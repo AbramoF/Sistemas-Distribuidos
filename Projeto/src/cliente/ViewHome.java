@@ -1,6 +1,6 @@
 package cliente;
 
-import DTOs.requests.LogoutRequestDTO;
+import DTOs.requests.DefaultRequest;
 import DTOs.responses.DefaultResponse;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -64,9 +64,8 @@ public class ViewHome extends javax.swing.JFrame {
     private void BotaoSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoSairActionPerformed
         try {
             Gson gson = new Gson();
-            LogoutRequestDTO logoutRequest = new LogoutRequestDTO();
+            DefaultRequest logoutRequest = new DefaultRequest();
             logoutRequest.setOp(200);
-            logoutRequest.setUsername(cUsername);
             System.out.printf("\n\nMensagem Enviada para o Server : " + gson.toJson(logoutRequest) + "\n\n");
             out.println(gson.toJson(logoutRequest));
             String resposta = in.readLine();
