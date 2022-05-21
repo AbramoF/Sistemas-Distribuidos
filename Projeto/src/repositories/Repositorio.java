@@ -97,6 +97,19 @@ public class Repositorio {
     public ArrayList<Produto> getProdutos() {
         return produtos;
     }
+    
+    public ArrayList<Produto> getProdutosUsuario(String username) {
+        ArrayList<Produto> retorno = new ArrayList<Produto>();
+        for (int i=0; i<produtos.size(); i++)
+        {
+            if(produtos.get(i).getUser_username().equals(username))
+            {
+                retorno.add(produtos.get(i));
+            }
+        }
+        
+        return retorno;
+    }
 
     public void setProdutos(ArrayList<Produto> produtos) {
         this.produtos = produtos;

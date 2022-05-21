@@ -23,6 +23,7 @@ public class ViewHome extends javax.swing.JFrame {
         this.produtos = new ArrayList<Produto>();
         this.meusProdutos = new ArrayList<Produto>();
         AtualizarTodosProdutos();
+        AtualizarMeusProdutos();
     }
 
     ArrayList<Produto> produtos;
@@ -67,6 +68,8 @@ public class ViewHome extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         AtualizarMeusButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        meusProdutosTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home");
@@ -183,16 +186,14 @@ public class ViewHome extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(AtualizarTodosButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(AtualizarTodosButton)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -279,9 +280,11 @@ public class ViewHome extends javax.swing.JFrame {
                     .addComponent(editarValorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(0, 97, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editarProdutoButton)
                     .addComponent(excluirProdutoButton))
@@ -300,15 +303,31 @@ public class ViewHome extends javax.swing.JFrame {
             }
         });
 
+        meusProdutosTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Nome", "Valor"
+            }
+        ));
+        jScrollPane2.setViewportView(meusProdutosTable);
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(AtualizarMeusButton)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                        .addComponent(AtualizarMeusButton)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -318,7 +337,9 @@ public class ViewHome extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(AtualizarMeusButton))
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -331,10 +352,10 @@ public class ViewHome extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotaoSair)
                 .addContainerGap())
         );
@@ -390,7 +411,7 @@ public class ViewHome extends javax.swing.JFrame {
     }//GEN-LAST:event_excluirProdutoButtonActionPerformed
 
     private void AtualizarMeusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarMeusButtonActionPerformed
-        // TODO add your handling code here:
+        AtualizarMeusProdutos();
     }//GEN-LAST:event_AtualizarMeusButtonActionPerformed
 
     private void editarProdutoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarProdutoButtonActionPerformed
@@ -419,7 +440,7 @@ public class ViewHome extends javax.swing.JFrame {
                 DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
                 if (respostaJson.getStatus() == 801) {
                     AtualizarTodosProdutos(); // atualiza todos
-                    // fazer: atualizar lista meus 
+                    AtualizarMeusProdutos(); // atualiza meus
                     JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Adicionar Produto", 1);
                 } else if (respostaJson.getStatus() == 802) {
                     JOptionPane.showMessageDialog(null, "Falha, " + resposta, "Adicionar Produto", 1);
@@ -451,6 +472,27 @@ public class ViewHome extends javax.swing.JFrame {
             //Logger.getLogger(ViewHome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void AtualizarMeusProdutos() {
+        try {
+            Gson gson = new Gson();
+            DefaultRequest meusProdutosRequest = new DefaultRequest();
+            meusProdutosRequest.setOp(500);
+            System.out.printf("\n\nMensagem Enviada para o Server : " + gson.toJson(meusProdutosRequest) + "\n\n");
+            out.println(gson.toJson(meusProdutosRequest));
+            String resposta = in.readLine();
+            System.out.println("Servidor respondeu : " + resposta);
+            ProductsResponse respostaJson = gson.fromJson(resposta, ProductsResponse.class);
+            if (respostaJson.getStatus() == 501) {
+                meusProdutos = respostaJson.getProductArray();
+                AtualizaTabelaMeus();
+                //JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Atualizar todos os produtos", 1);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro", "Atualizar meus os produtos", 1);
+            //Logger.getLogger(ViewHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private void AtualizaTabelaTodos() {
         Produto p;
@@ -470,10 +512,27 @@ public class ViewHome extends javax.swing.JFrame {
             dtm.addRow(data);
         }
     }
+    
+        private void AtualizaTabelaMeus() {
+        Produto p;
 
-    private void AtualizarMeusProdutos() {
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) meusProdutosTable.getModel();
+        dtm.fireTableDataChanged(); // limpando
+        dtm.setRowCount(0); // começa pela linha 0
 
+        for (int cont = 0; cont < meusProdutos.size(); cont++) {
+            p = meusProdutos.get(cont);
+            String[] data
+                    = {
+                        "" + p.getName(),
+                        "" + String.valueOf(p.getValue()),
+                        "" + p.getUser_username()    
+                    };
+            dtm.addRow(data);
+        }
     }
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddProdutoButton;
@@ -500,8 +559,10 @@ public class ViewHome extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable meusProdutosTable;
     private javax.swing.JTextArea novaDescArea;
     private javax.swing.JTextField novoNomeField;
     private javax.swing.JTextField novoValorField;
