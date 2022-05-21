@@ -64,23 +64,23 @@ public class ServerThread extends Thread {
             //ex.printStackTrace();
         }
     }
-    
+
     public void atualizarTabela() {
-      String user;
+        String user;
 
-      javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) viewServidor.getTabela().getModel();
-      dtm.fireTableDataChanged(); // limpando
-      dtm.setRowCount(0); // começa pela linha 0
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) viewServidor.getTabela().getModel();
+        dtm.fireTableDataChanged(); // limpando
+        dtm.setRowCount(0); // começa pela linha 0
 
-      for (int cont = 0; cont < viewServidor.repositorio.usuariosOnline.size(); cont++) {
-         user = viewServidor.repositorio.usuariosOnline.get(cont);
-         String[] data
-                 = {
-                    "" + user
-                 };
-         dtm.addRow(data);
-      }
-   }
+        for (int cont = 0; cont < viewServidor.repositorio.usuariosOnline.size(); cont++) {
+            user = viewServidor.repositorio.usuariosOnline.get(cont);
+            String[] data
+                    = {
+                        "" + user
+                    };
+            dtm.addRow(data);
+        }
+    }
 
     public String TreatRequest(String jsonRequest) {
         Gson gson = new Gson();
@@ -120,6 +120,9 @@ public class ServerThread extends Thread {
                     } else if (resultNumber == 2) { // Sucesso registro
                         return gson.toJson(new DefaultResponse(301));
                     }
+                // NOVO PRODUTO
+                case 800:
+
                 default:
                     return gson.toJson(new DefaultResponse(999), DefaultResponse.class);
             }
