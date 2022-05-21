@@ -13,14 +13,6 @@ public class Repositorio {
 
     }
 
-    // TIRAR
-    public int port = 0;
-    public String data[][] = {{"101", "Abramo", "670000"},
-    {"102", "Matheus", "780000"},
-    {"101", "Portela", "700000"}};
-    public String column[] = {"ID", "NAME", "SALARY"};
-    // ------------------------------------------------------
-
     private ArrayList<Usuario> usuarios;
     private ArrayList<Produto> produtos;
     public ArrayList<String> usuariosOnline;
@@ -133,4 +125,5 @@ public class Repositorio {
             return aux + 1;
         }
     }
+
 }

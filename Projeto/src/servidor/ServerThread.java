@@ -121,6 +121,8 @@ public class ServerThread extends Thread {
                 // ---------------------------------------------------------------------------------------------------------------------------
                 // LISTAR TODOS OS PRODUTOS
                 case 400:
+                    DefaultRequest productsRequest = gson.fromJson(jsonRequest, DefaultRequest.class);
+                    return gson.toJson(new ProductsResponse(401, viewServidor.repositorio.getProdutos()));
                 // ---------------------------------------------------------------------------------------------------------------------------
                 // LISTAR TODOS OS PRODUTOS DO USUARIO
                 case 500:
@@ -134,7 +136,7 @@ public class ServerThread extends Thread {
                 // NOVO PRODUTO
                 case 800:
                     NewProductRequest newProductRequest = gson.fromJson(jsonRequest, NewProductRequest.class);
-                    result = true; // fazer
+                    result = viewServidor.repositorio.inserirProduto(newProductRequest.getName(), newProductRequest.getProductValue(), newProductRequest.getDescription(), currentUser);
                     if(result) {
                         return gson.toJson(new DefaultResponse(801));
                     } else {
