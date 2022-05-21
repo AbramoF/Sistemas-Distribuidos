@@ -22,6 +22,7 @@ public class ViewHome extends javax.swing.JFrame {
         this.out = out;
         this.produtos = new ArrayList<Produto>();
         this.meusProdutos = new ArrayList<Produto>();
+        AtualizarTodosProdutos();
     }
 
     ArrayList<Produto> produtos;
@@ -443,7 +444,7 @@ public class ViewHome extends javax.swing.JFrame {
             if (respostaJson.getStatus() == 401) {
                 produtos = respostaJson.getProductArray();
                 AtualizaTabelaTodos();
-                JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Atualizar todos os produtos", 1);
+                //JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Atualizar todos os produtos", 1);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro", "Atualizar todos os produtos", 1);
