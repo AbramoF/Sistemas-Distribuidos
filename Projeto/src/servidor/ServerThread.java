@@ -49,6 +49,7 @@ public class ServerThread extends Thread {
 
             if (currentUser != null) {
                 viewServidor.repositorio.logOut(currentUser); // DESLOGAR USER QUANDO FECHA O CLIENTE
+                atualizarTabela();
             }
             System.out.println("Encerrou Thread");
 
@@ -57,6 +58,7 @@ public class ServerThread extends Thread {
             System.out.println("Encerrou Thread inesperadamente");
             if (currentUser != null) {
                 viewServidor.repositorio.logOut(currentUser); // DESLOGAR USER QUANDO FECHA O CLIENTE
+                atualizarTabela();
             }
             //System.out.println("Server exception: " + ex.getMessage());
             //ex.printStackTrace();
