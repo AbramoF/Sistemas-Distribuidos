@@ -305,15 +305,20 @@ public class ViewHome extends javax.swing.JFrame {
 
         meusProdutosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Nome", "Valor"
+                "ID", "Nome", "Valor"
             }
         ));
+        meusProdutosTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                meusProdutosTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(meusProdutosTable);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -452,6 +457,18 @@ public class ViewHome extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AddProdutoButtonActionPerformed
 
+    private void meusProdutosTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meusProdutosTableMouseClicked
+        int linha = this.meusProdutosTable.getSelectedRow();
+        int id = Integer.parseInt((String) this.meusProdutosTable.getValueAt(linha, 0));
+        
+        System.out.println("Entrou " + linha);
+        
+        Produto p = retornaPeloID(id, meusProdutos);
+        editarNomeField.setText(p.getName());
+        editarValorField.setText(String.valueOf(p.getValue()));
+        editarDescArea.setText(p.getDescription());
+    }//GEN-LAST:event_meusProdutosTableMouseClicked
+
     private void AtualizarTodosProdutos() {
         try {
             Gson gson = new Gson();
@@ -513,7 +530,7 @@ public class ViewHome extends javax.swing.JFrame {
         }
     }
     
-        private void AtualizaTabelaMeus() {
+    private void AtualizaTabelaMeus() {
         Produto p;
 
         javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) meusProdutosTable.getModel();
@@ -524,14 +541,23 @@ public class ViewHome extends javax.swing.JFrame {
             p = meusProdutos.get(cont);
             String[] data
                     = {
+                        "" + p.getIdproduct(),
                         "" + p.getName(),
-                        "" + String.valueOf(p.getValue()),
-                        "" + p.getUser_username()    
+                        "" + String.valueOf(p.getValue())
+ 
                     };
             dtm.addRow(data);
         }
     }
 
+    private Produto retornaPeloID(int id, ArrayList<Produto> list) {
+        for(int i=0;i<list.size();i++)
+        {
+            if(list.get(i).getIdproduct() == id)
+                return list.get(i);
+        }
+        return null;
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
