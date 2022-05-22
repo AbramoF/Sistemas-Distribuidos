@@ -147,9 +147,24 @@ public class ServerThread extends Thread {
                 // ---------------------------------------------------------------------------------------------------------------------------
                 // EDICAO DE PRODUTO
                 case 900:
+                    EditRequest editRequest = gson.fromJson(jsonRequest, EditRequest.class);
+                    result = true;
+                    if (result) {
+                        //return gson.toJson(new EditResponse(901, ));
+                    } else {
+                        return gson.toJson(new ErrorDefaultResponse(902, "Ocorreu um erro"));
+                    }
+
                 // ---------------------------------------------------------------------------------------------------------------------------
                 // REMOVER PRODUTO
                 case 1000:
+                    EditRequest removeRequest = gson.fromJson(jsonRequest, EditRequest.class); 
+                    result = viewServidor.repositorio.removeProduto(removeRequest.getProductId());
+                    if(result) {
+                        return gson.toJson(new DefaultResponse(1001));
+                    } else {
+                        return gson.toJson(new ErrorDefaultResponse(1002, "Não foi possivel excluir"));
+                    }
                 // ---------------------------------------------------------------------------------------------------------------------------
                 // PEDIDO DE CHAT
                 case 1100:

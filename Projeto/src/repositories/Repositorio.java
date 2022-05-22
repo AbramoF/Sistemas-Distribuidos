@@ -138,5 +138,17 @@ public class Repositorio {
             return aux + 1;
         }
     }
+    
+    public boolean removeProduto(int id) {
+        for (int i=0; i<produtos.size(); i++)
+        {
+            if(produtos.get(i).getIdproduct() == id)
+            {
+                produtos.remove(produtos.get(i));
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

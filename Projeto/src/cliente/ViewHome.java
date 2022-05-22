@@ -31,6 +31,7 @@ public class ViewHome extends javax.swing.JFrame {
 
     ViewClienteLogin viewClienteLogin;
     String cUsername;
+    int idSelect = 0;
     PrintWriter out;
     BufferedReader in;
 
@@ -412,7 +413,36 @@ public class ViewHome extends javax.swing.JFrame {
     }//GEN-LAST:event_AtualizarTodosButtonActionPerformed
 
     private void excluirProdutoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirProdutoButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            Gson gson = new Gson();
+            EditRequest removeRequest = new EditRequest();
+            // Setando campos
+            removeRequest.setOp(1000); // op
+            removeRequest.setProductId(idSelect); // id
+            removeRequest.setUsername(cUsername); // username
+            // Enviando mensagem
+            System.out.printf("\n\nMensagem Enviada para o Server : " + gson.toJson(removeRequest) + "\n\n");
+            out.println(gson.toJson(removeRequest));
+            // Recebendo resposta
+            String resposta = in.readLine();
+            System.out.println("Servidor respondeu : " + resposta);
+            // Tratando resposta
+            DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
+            if (respostaJson.getStatus() == 1001) {
+                AtualizarTodosProdutos(); // atualiza todos
+                AtualizarMeusProdutos(); // atualiza meus
+                cleanEdit();
+                idSelect = 0;
+                JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Excluir Produto", 1);
+            } else if (respostaJson.getStatus() == 802) {
+                JOptionPane.showMessageDialog(null, "Falha, " + resposta, "Excluir Produto", 1);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro", "Excluir Produto", 1);
+            //Logger.getLogger(ViewHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_excluirProdutoButtonActionPerformed
 
     private void AtualizarMeusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarMeusButtonActionPerformed
@@ -446,6 +476,7 @@ public class ViewHome extends javax.swing.JFrame {
                 if (respostaJson.getStatus() == 801) {
                     AtualizarTodosProdutos(); // atualiza todos
                     AtualizarMeusProdutos(); // atualiza meus
+                    cleanNovo();
                     JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Adicionar Produto", 1);
                 } else if (respostaJson.getStatus() == 802) {
                     JOptionPane.showMessageDialog(null, "Falha, " + resposta, "Adicionar Produto", 1);
@@ -460,9 +491,9 @@ public class ViewHome extends javax.swing.JFrame {
     private void meusProdutosTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meusProdutosTableMouseClicked
         int linha = this.meusProdutosTable.getSelectedRow();
         int id = Integer.parseInt((String) this.meusProdutosTable.getValueAt(linha, 0));
-        
+        idSelect = id;
         System.out.println("Entrou " + linha);
-        
+
         Produto p = retornaPeloID(id, meusProdutos);
         editarNomeField.setText(p.getName());
         editarValorField.setText(String.valueOf(p.getValue()));
@@ -489,7 +520,7 @@ public class ViewHome extends javax.swing.JFrame {
             //Logger.getLogger(ViewHome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void AtualizarMeusProdutos() {
         try {
             Gson gson = new Gson();
@@ -524,12 +555,12 @@ public class ViewHome extends javax.swing.JFrame {
                     = {
                         "" + p.getName(),
                         "" + String.valueOf(p.getValue()),
-                        "" + p.getUser_username()    
+                        "" + p.getUser_username()
                     };
             dtm.addRow(data);
         }
     }
-    
+
     private void AtualizaTabelaMeus() {
         Produto p;
 
@@ -544,21 +575,33 @@ public class ViewHome extends javax.swing.JFrame {
                         "" + p.getIdproduct(),
                         "" + p.getName(),
                         "" + String.valueOf(p.getValue())
- 
+
                     };
             dtm.addRow(data);
         }
     }
 
     private Produto retornaPeloID(int id, ArrayList<Produto> list) {
-        for(int i=0;i<list.size();i++)
-        {
-            if(list.get(i).getIdproduct() == id)
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getIdproduct() == id) {
                 return list.get(i);
+            }
         }
         return null;
     }
-    
+
+    private void cleanNovo() {
+        novoNomeField.setText("");
+        novoValorField.setText("");
+        novaDescArea.setText("");
+    }
+
+    private void cleanEdit() {
+        editarNomeField.setText("");
+        editarValorField.setText("");
+        editarDescArea.setText("");
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddProdutoButton;
