@@ -151,4 +151,28 @@ public class Repositorio {
         return false;
     }
 
+    public int indexPorId(int id) {
+        for (int i=0; i<produtos.size(); i++)
+        {
+            if(produtos.get(i).getIdproduct() == id)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    public boolean editProduto(int id, String name, float value, String desc)
+    {
+        int aux = indexPorId(id);
+        if(aux != -1 && !name.isEmpty() && !desc.isEmpty())
+        {
+            produtos.get(aux).setName(name);
+            produtos.get(aux).setValue(value);
+            produtos.get(aux).setDescription(desc);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

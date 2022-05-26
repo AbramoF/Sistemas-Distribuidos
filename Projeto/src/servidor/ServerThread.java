@@ -148,9 +148,9 @@ public class ServerThread extends Thread {
                 // EDICAO DE PRODUTO
                 case 900:
                     EditRequest editRequest = gson.fromJson(jsonRequest, EditRequest.class);
-                    result = true;
+                    result = viewServidor.repositorio.editProduto(editRequest.getProductId(), editRequest.getProductName(), editRequest.getProductValue(), editRequest.getDescription());
                     if (result) {
-                        //return gson.toJson(new EditResponse(901, ));
+                        return gson.toJson(new DefaultResponse(901));
                     } else {
                         return gson.toJson(new ErrorDefaultResponse(902, "Ocorreu um erro"));
                     }
@@ -158,7 +158,7 @@ public class ServerThread extends Thread {
                 // ---------------------------------------------------------------------------------------------------------------------------
                 // REMOVER PRODUTO
                 case 1000:
-                    EditRequest removeRequest = gson.fromJson(jsonRequest, EditRequest.class); 
+                    DeleteRequest removeRequest = gson.fromJson(jsonRequest, DeleteRequest.class); 
                     result = viewServidor.repositorio.removeProduto(removeRequest.getProductId());
                     if(result) {
                         return gson.toJson(new DefaultResponse(1001));

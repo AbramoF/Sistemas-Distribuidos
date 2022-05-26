@@ -514,7 +514,7 @@ public class ViewHome extends javax.swing.JFrame {
     private void excluirProdutoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirProdutoButtonActionPerformed
         try {
             Gson gson = new Gson();
-            EditRequest removeRequest = new EditRequest();
+            DeleteRequest removeRequest = new DeleteRequest();
             // Setando campos
             removeRequest.setOp(1000); // op
             removeRequest.setProductId(idSelect); // id
@@ -549,7 +549,36 @@ public class ViewHome extends javax.swing.JFrame {
     }//GEN-LAST:event_AtualizarMeusButtonActionPerformed
 
     private void editarProdutoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarProdutoButtonActionPerformed
-        // TODO add your handling code here:
+       try {
+            Gson gson = new Gson();
+            EditRequest editRequest = new EditRequest();
+            // Setando campos
+            editRequest.setOp(900); // op
+            editRequest.setProductId(idSelect); // id
+            editRequest.setProductName(editarNomeField.getText()); // nome
+            editRequest.setProductValue(Float.parseFloat(editarValorField.getText())); // valor
+            editRequest.setDescription(editarDescArea.getText()); // descricao
+            // Enviando mensagem
+            System.out.printf("\n\nMensagem Enviada para o Server : " + gson.toJson(editRequest) + "\n\n");
+            out.println(gson.toJson(editRequest));
+            // Recebendo resposta
+            String resposta = in.readLine();
+            System.out.println("Servidor respondeu : " + resposta);
+            // Tratando resposta
+            DefaultResponse respostaJson = gson.fromJson(resposta, DefaultResponse.class);
+            if (respostaJson.getStatus() == 901) {
+                AtualizarTodosProdutos(); // atualiza todos
+                AtualizarMeusProdutos(); // atualiza meus
+                cleanEdit();
+                idSelect = 0;
+                JOptionPane.showMessageDialog(null, "Sucesso, " + resposta, "Editar Produto", 1);
+            } else if (respostaJson.getStatus() == 902) {
+                JOptionPane.showMessageDialog(null, "Falha, " + resposta, "Editar Produto", 1);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro", "Editar Produto", 1);
+            //Logger.getLogger(ViewHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_editarProdutoButtonActionPerformed
 
     private void AddProdutoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProdutoButtonActionPerformed

@@ -1,18 +1,36 @@
 package DTOs.requests;
 
 public class EditRequest extends DefaultRequest {
-    
-    
-    String username;
+   
     int productId;
+    String description;
+    float productValue;
+    String productName;
 
-    public String getUsername() {
-        return username;
+    public String getDescription() {
+        return description;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public float getProductValue() {
+        return productValue;
+    }
+
+    public void setProductValue(float productValue) {
+        this.productValue = productValue;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    
 
     public int getProductId() {
         return productId;
