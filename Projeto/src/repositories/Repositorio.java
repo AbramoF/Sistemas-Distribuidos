@@ -116,7 +116,8 @@ public class Repositorio {
     }
 
     public boolean inserirProduto(String nome, float valor, String descricao, String username) {
-        if(!nome.equals("") && !descricao.equals("") && (new Float(valor) != null)) 
+        
+        if(!nome.equals("") && !descricao.equals("") && (valor != 0.0)) 
         {
         Produto novoProduto = new Produto(proxIdProduto(), nome, valor, descricao, username);
         produtos.add(novoProduto);
