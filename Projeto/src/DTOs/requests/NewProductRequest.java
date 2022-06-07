@@ -2,16 +2,16 @@ package DTOs.requests;
 
 public class NewProductRequest extends DefaultRequest {
 
-    private String name;
+    private String productName;
     private String description;
     private float productValue;
 
     public String getName() {
-        return name;
+        return productName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.productName = name;
     }
 
     public String getDescription() {
