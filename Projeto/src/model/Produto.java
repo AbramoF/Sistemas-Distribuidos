@@ -7,14 +7,14 @@ public class Produto {
     private String name;
     private float value;
     private String description;
-    private String user_username;
+    private String username;
 
     public Produto(int idproduct, String name, float value, String description, String user_username) {
         this.idproduct = idproduct;
         this.name = name;
         this.value = value;
         this.description = description;
-        this.user_username = user_username;
+        this.username = user_username;
     }
     
 
@@ -51,11 +51,11 @@ public class Produto {
     }
 
     public String getUser_username() {
-        return user_username;
+        return username;
     }
 
     public void setUser_username(String user_username) {
-        this.user_username = user_username;
+        this.username = user_username;
     }
 
 
