@@ -3,14 +3,14 @@ package model;
 
 public class Produto {
     
-    private int idproduct;
+    private int productId;
     private String name;
     private float value;
     private String description;
     private String username;
 
     public Produto(int idproduct, String name, float value, String description, String user_username) {
-        this.idproduct = idproduct;
+        this.productId = idproduct;
         this.name = name;
         this.value = value;
         this.description = description;
@@ -19,11 +19,11 @@ public class Produto {
     
 
     public int getIdproduct() {
-        return idproduct;
+        return productId;
     }
 
     public void setIdproduct(int idproduct) {
-        this.idproduct = idproduct;
+        this.productId = idproduct;
     }
 
     public String getName() {
