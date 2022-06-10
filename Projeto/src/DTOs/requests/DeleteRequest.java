@@ -1,18 +1,7 @@
 package DTOs.requests;
 
 public class DeleteRequest extends DefaultRequest {
-    
-    
-    String username;
     int productId;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public int getProductId() {
         return productId;

@@ -518,7 +518,6 @@ public class ViewHome extends javax.swing.JFrame {
             // Setando campos
             removeRequest.setOp(1000); // op
             removeRequest.setProductId(idSelect); // id
-            removeRequest.setUsername(cUsername); // username
             // Enviando mensagem
             System.out.printf("\n\nMensagem Enviada para o Server : " + gson.toJson(removeRequest) + "\n\n");
             out.println(gson.toJson(removeRequest));
